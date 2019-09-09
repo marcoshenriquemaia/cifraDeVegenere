@@ -1,0 +1,47 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container{
+    max-width: 400px;
+    /* width: 40%; */
+    max-height: 400px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: linear-gradient(to right, #facada, #dedada);
+    padding: 1em;
+}
+.botao-criptografa{
+    margin: 1em;
+}
+.quadrado{
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    margin: 2px;
+}
+.campos{
+    height: 1.5em;
+    border: none;
+    border-radius: .3em;
+}
+.botao-criptografa{
+    border: none;
+    background-color: #eee;
+    height: 2em;
+    width: 40%;
+    border-radius: .3em;
+}
+.frase-criptografada{
+    width: 400px;
+    box-sizing: border-box;
+    height: fit-content;
+    word-wrap: break-word;
+    text-align: center;
+}
