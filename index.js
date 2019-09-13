@@ -1,70 +1,60 @@
-const $campoChave = document.querySelector('#campo-chave');
-const $campoFrase = document.querySelector('#campo-frase');
-const $fraseCriptografada = document.querySelector('.frase-criptografada');
-const $botaoCriptografa = document.querySelector('.botao-criptografa');
-const $container = document.querySelector('.container');
+const $campoChave = document.querySelector("#campo-chave");
+const $campoFrase = document.querySelector("#campo-frase");
+const $fraseCriptografada = document.querySelector(".frase-criptografada");
+const $botaoCriptografa = document.querySelector(".botao-criptografa");
+const $container = document.querySelector(".container");
 
-const alfabeto = 'abcdefghijklmnopqrstuvwxyz';
-let chaveIgualada = [];
-let posicoesFrase = [];
-let posicoesChave = [];
+const alfabeto = "abcdefghijklmnopqrstuvwxyz";
+let fraseCifrada = [];
 
 let frase;
 let chave;
 
-$botaoCriptografa.addEventListener('click', () =>{
-    reset();
-    igualarChave();
-    criptografa();
-})
+$botaoCriptografa.addEventListener("click", () => {
+  reset();
+  criptografa();
+  imprimeFrase();
+});
 
-$campoChave.addEventListener('change', () =>{
-    chave = $campoChave.value.toLowerCase();
-})
+$campoChave.addEventListener("change", () => {
+  chave = $campoChave.value.toLowerCase();
+});
 
-$campoFrase.addEventListener('change', () =>{
-    frase = $campoFrase.value.toLowerCase();
-})
+$campoFrase.addEventListener("change", () => {
+  frase = $campoFrase.value.toLowerCase();
+});
 
-const igualarChave = () =>{
-    [...chave].map(letra =>{
-        if (frase.length == chaveIgualada.length) return;
-        chaveIgualada.push(letra);
-    })
-    if (frase.length == chaveIgualada.length) return;
-    igualarChave();
-}
-
-const posicionaFrase = () =>{
-    [...frase].map(letraFrase =>{
-    [...alfabeto].map((letraAlfabeto, index) =>{
-            if (letraAlfabeto === letraFrase) posicoesFrase.push(index);
-        })
+const criptografa = () => {
+  const posicaoChave = [];
+  const posicaoFrase = [];
+  [...frase].map((letraFrase, indexFrase) => {
+    const letraChave = chave[indexFrase % chave.length];
+    [...alfabeto].map((letraAlfabeto, indexAlfabeto) => {
+      if (letraAlfabeto === letraChave) {
+        posicaoChave.push(indexAlfabeto);
+      }
+      if (letraAlfabeto === letraFrase) {
+        posicaoFrase.push(indexAlfabeto);
+      }
     });
-}
-
-const posicionaChave = () =>{
-    [...chaveIgualada].map(letraFrase =>{
-        [...alfabeto].map((letraAlfabeto, index) =>{
-                if (letraAlfabeto === letraFrase) posicoesChave.push(index);
-            })
-        });
-}
-
-const criptografa = () =>{
-    posicionaChave();
-    posicionaFrase();
-    for (i = 0; i < posicoesFrase.length; i++){
-        imprimeFrase(i);
+    if (letraFrase === " ") {
+      posicaoChave.push(" ");
+      posicaoFrase.push(" ");
+      fraseCifrada.push(" ");
+    } else {
+      fraseCifrada.push(
+        alfabeto[(posicaoChave[indexFrase] + posicaoFrase[indexFrase]) % 26]
+      );
     }
-}
 
-const imprimeFrase = i =>{
-    const alfabetoCriptografia = [...alfabeto];
-    $fraseCriptografada.textContent = $fraseCriptografada.textContent + alfabetoCriptografia[(posicoesChave[i] + posicoesFrase[i]) % 26]
-}
+  });
+};
 
-const reset = () =>{
-    $fraseCriptografada.textContent = '';
-    posicoesFrase = [];
-}
+const imprimeFrase = () => {
+  $fraseCriptografada.textContent = fraseCifrada.join("");
+};
+
+const reset = () => {
+  fraseCifrada = [];
+  $fraseCriptografada.textContent = "";
+};
